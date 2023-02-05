@@ -67,3 +67,32 @@ func (u *StockUsecase) StockGetByID(ctx context.Context, id int64) (s models.Sto
 
 	return
 }
+
+func (u *StockUsecase) StockBulkCreate(ctx context.Context, reqs []models.StockCreateRequest) (errx serror.SError) {
+	functionName := "[StockUsecase][StockBulkCreate]"
+
+	//handle tx
+	if u.db != nil {
+		err := u.db.StartTx()
+		if err != nil {
+			errx = serror.NewWithErrorCommentMessage(err, http.StatusInternalServerError, fmt.Sprintf("%s While StartTx", functionName), "Kesalahan Server")
+			return
+		}
+		defer func() {
+			if errx != nil {
+				err = errx.GetError()
+			}
+			u.db.SubmitTx(err)
+		}()
+	}
+
+	for _, req := range reqs {
+		_, errx = u.StockCreate(ctx, req)
+		if errx != nil {
+			errx.AddCommentMessage(fmt.Sprintf("%s While StockCreate", functionName), "Gagal tambah data Stock")
+			return
+		}
+	}
+
+	return
+}

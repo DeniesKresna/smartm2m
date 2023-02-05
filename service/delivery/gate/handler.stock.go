@@ -73,3 +73,48 @@ func (c *Gate) GetStockByID(w http.ResponseWriter, r *http.Request) {
 	response.SuccessHTTP(w, stock, message, startTime)
 	return
 }
+
+func (c *Gate) CreateStockBulk(w http.ResponseWriter, r *http.Request) {
+	var (
+		ctx          = r.Context()
+		functionName = "[Handler][CreateStockBulk]"
+		startTime    = time.Now()
+		message      = "Berhasil"
+		payloads     []models.StockCreateRequest
+		errx         serror.SError
+	)
+
+	err := json.NewDecoder(r.Body).Decode(&payloads)
+	if err != nil {
+		errx = serror.NewWithErrorCommentMessage(
+			err, http.StatusInternalServerError, fmt.Sprintf("%s While json.NewDecoder", functionName), "Gagal mengkonversi masukan",
+		)
+		response.FailHTTP(w, errx)
+		return
+	}
+
+	for _, payload := range payloads {
+		err, valid, valErrors := request.ValidateInputs(payload)
+		if err != nil {
+			errx := serror.NewWithErrorCommentMessage(err, http.StatusBadRequest, fmt.Sprintf("%s While Validate Inputs Error", functionName), "Data masukan permintaan tidak sesuai")
+			response.FailHTTP(w, errx)
+			return
+		}
+
+		if !valid {
+			errx := serror.NewWithCommentMessageValidation(http.StatusBadRequest, fmt.Sprintf("%s Input Payload is wrong", functionName), "Data masukan permintaan tidak sesuai", valErrors)
+			response.FailHTTP(w, errx)
+			return
+		}
+	}
+
+	errx = c.StockUsecase.StockBulkCreate(ctx, payloads)
+	if errx != nil {
+		errx.AddComment(fmt.Sprintf("%s While StockBulkCreate", functionName))
+		response.FailHTTP(w, errx)
+		return
+	}
+
+	response.SuccessHTTP(w, nil, message, startTime)
+	return
+}
