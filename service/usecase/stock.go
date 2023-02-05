@@ -27,17 +27,19 @@ func (u *StockUsecase) StockCreate(ctx context.Context, req models.StockCreateRe
 	functionName := "[StockUsecase][StockCreate]"
 
 	//handle tx
-	err := u.db.StartTx()
-	if err != nil {
-		errx = serror.NewWithErrorCommentMessage(err, http.StatusInternalServerError, fmt.Sprintf("%s While StartTx", functionName), "Kesalahan Server")
-		return
-	}
-	defer func() {
-		if errx != nil {
-			err = errx.GetError()
+	if u.db != nil {
+		err := u.db.StartTx()
+		if err != nil {
+			errx = serror.NewWithErrorCommentMessage(err, http.StatusInternalServerError, fmt.Sprintf("%s While StartTx", functionName), "Kesalahan Server")
+			return
 		}
-		u.db.SubmitTx(err)
-	}()
+		defer func() {
+			if errx != nil {
+				err = errx.GetError()
+			}
+			u.db.SubmitTx(err)
+		}()
+	}
 
 	id, errx := u.stockMysql.StockCreate(ctx, req)
 	if errx != nil {
