@@ -13,8 +13,8 @@ type Stock struct {
 }
 
 type StockCreateRequest struct {
-	Name         string  `json:"name" db:"name"`
-	Price        float64 `json:"price" db:"price"`
-	Availability int     `json:"availability"`
-	IsActive     *bool   `json:"is_active"`
+	Name         string  `json:"name" validate:"required" valerr:"nama harus diisi"`
+	Price        float64 `json:"price" validate:"required,number,gt=0" valerr:"Harga harus diisi, berupa angka, dan lebih dari 0"`
+	Availability *int    `json:"availability" validate:"required,numeric,gte=0" valerr:"Availibility harus diisi, berupa angka dan tidak boleh negatif"`
+	IsActive     *bool   `json:"is_active" validate:"required" valerr:"isActive harus diisi"`
 }
