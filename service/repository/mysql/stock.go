@@ -45,7 +45,7 @@ func (r *MysqlStockRepository) StockGetByID(ctx context.Context, id int64) (s mo
 
 	err := r.db.Take(&s, queries.QueryGetStockByID, id)
 	if err != nil {
-		errx = serror.NewWithErrorComment(err, http.StatusInternalServerError, fmt.Sprintf("%s While QueryGetStockByID (id: %+v)", functionName, id))
+		errx = serror.NewWithErrorComment(err, http.StatusNotFound, fmt.Sprintf("%s While QueryGetStockByID (id: %+v)", functionName, id))
 		return
 	}
 
