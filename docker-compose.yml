@@ -1,17 +1,15 @@
 version: '3'
 services:
-  # jhapi:
-  #   container_name: jh_api
-  #   build: ./app-api
-  #   ports: 
-  #     - 9010:9010 
-  #   restart: on-failure
-  #   volumes:
-  #     - api:/usr/src/app/
-  #   depends_on:
-  #     - fullstack-mysql           # Uncomment this when using mysql.
-  #   networks:
-  #     - fullstack
+  danatest-api:
+    container_name: danatest_api
+    build: ./
+    ports: 
+      - 8080:8080 
+    restart: on-failure
+    depends_on:
+      - fullstack-mysql           # Uncomment this when using mysql.
+    networks:
+      - danatest_network
 
   fullstack-mysql:
     platform: linux/x86_64
@@ -47,7 +45,6 @@ services:
       - danatest_network
 
 volumes:
-  api:
   database_mysql:                   # Uncomment this when using mysql.
 
 # Networks to be created to facilitate communication between containers
