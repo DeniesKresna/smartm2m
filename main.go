@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/DeniesKresna/danatest/app"
-	"github.com/DeniesKresna/danatest/config"
 	"github.com/DeniesKresna/gohelper/utlog"
+	"github.com/DeniesKresna/smartm2m/app"
+	"github.com/DeniesKresna/smartm2m/config"
 	"github.com/joho/godotenv"
 )
 
@@ -29,6 +29,8 @@ func main() {
 		utlog.Errorf("error while connecting DB. %+v", err)
 		return
 	}
+
+	conf.InitNewDiscordLogger()
 
 	// start Http server
 	app := app.InitApp(conf)

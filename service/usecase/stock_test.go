@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DeniesKresna/danatest/models"
-	"github.com/DeniesKresna/danatest/service/repository/mysql/mocks"
 	"github.com/DeniesKresna/gobridge/serror"
+	"github.com/DeniesKresna/smartm2m/models"
+	"github.com/DeniesKresna/smartm2m/service/repository/mysql/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )

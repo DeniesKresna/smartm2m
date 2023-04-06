@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/DeniesKresna/danatest/models"
-	"github.com/DeniesKresna/danatest/service/repository/mysql"
 	"github.com/DeniesKresna/gobridge/sdb"
 	"github.com/DeniesKresna/gobridge/serror"
+	"github.com/DeniesKresna/smartm2m/models"
+	"github.com/DeniesKresna/smartm2m/service/repository/mysql"
 )
 
 type StockUsecase struct {

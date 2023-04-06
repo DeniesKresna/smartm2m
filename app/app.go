@@ -11,11 +11,11 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/DeniesKresna/danatest/config"
-	"github.com/DeniesKresna/danatest/service/delivery/gate"
-	"github.com/DeniesKresna/danatest/service/repository/mysql"
-	"github.com/DeniesKresna/danatest/service/usecase"
 	"github.com/DeniesKresna/gohelper/utlog"
+	"github.com/DeniesKresna/smartm2m/config"
+	"github.com/DeniesKresna/smartm2m/service/delivery/gate"
+	"github.com/DeniesKresna/smartm2m/service/repository/sql"
+	"github.com/DeniesKresna/smartm2m/service/usecase"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
 )
@@ -26,9 +26,9 @@ type Application struct {
 }
 
 func InitApp(conf *config.Config) *Application {
-	mysqlStockRepo := mysql.InitMysqlStockRepository(conf.DB)
-	stockUsecase := usecase.InitStockUsecase(conf.DB, mysqlStockRepo)
-	appGate := gate.InitGate(stockUsecase)
+	sqlRepo := sql.InitDatabase(conf.DB, conf.Q)
+	userUsecase := usecase.InitUserUsecase(conf.DB, sqlRepo)
+	appGate := gate.InitGate(conf.Validator, userUsecase)
 
 	return &Application{
 		Conf:    conf,

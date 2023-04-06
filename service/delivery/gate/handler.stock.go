@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/DeniesKresna/danatest/models"
-	"github.com/DeniesKresna/danatest/service/helpers/request"
-	"github.com/DeniesKresna/danatest/service/helpers/response"
 	"github.com/DeniesKresna/gobridge/serror"
+	"github.com/DeniesKresna/smartm2m/models"
+	"github.com/DeniesKresna/smartm2m/service/helpers/request"
+	"github.com/DeniesKresna/smartm2m/service/helpers/response"
 )
 
 func (c *Gate) AddStock(w http.ResponseWriter, r *http.Request) {

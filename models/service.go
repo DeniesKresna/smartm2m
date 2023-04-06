@@ -18,9 +18,8 @@ type HTTPRoute struct {
 }
 
 type ApiResponse struct {
-	ProcessTime int64       `json:"process_time"`
-	Success     bool        `json:"success"`
-	Status      int         `json:"statusCode"`
-	Message     string      `json:"message"`
-	Data        interface{} `json:"data,omitempty"`
+	Status  int         `json:"status"`
+	Title   string      `json:"title"`
+	Detail  interface{} `json:"detail"`
+	Success bool        `json:"success"`
 }

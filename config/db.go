@@ -3,10 +3,11 @@ package config
 import (
 	"fmt"
 
-	"github.com/DeniesKresna/danatest/models"
 	"github.com/DeniesKresna/gobridge/sdb"
 	"github.com/DeniesKresna/gohelper/utlog"
 	"github.com/DeniesKresna/gohelper/utstring"
+	"github.com/DeniesKresna/myqgen2/qgen"
+	"github.com/DeniesKresna/smartm2m/models"
 )
 
 func (cfg *Config) InitDB() (err error) {
@@ -28,5 +29,15 @@ func (cfg *Config) InitDB() (err error) {
 	}
 
 	cfg.DB = dBInstance
+
+	// set query generator
+	isLogDB := utstring.GetEnv(models.DBIsLogged, "FALSE")
+	isLogged := isLogDB == "TRUE"
+	q, err := qgen.InitObject(isLogged, models.User{}, models.Item{})
+	if err != nil {
+		return
+	}
+	cfg.Q = q
+
 	return
 }

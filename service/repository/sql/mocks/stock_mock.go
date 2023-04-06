@@ -5,7 +5,7 @@ package mocks
 import (
 	context "context"
 
-	models "github.com/DeniesKresna/danatest/models"
+	models "github.com/DeniesKresna/smartm2m/models"
 	mock "github.com/stretchr/testify/mock"
 
 	serror "github.com/DeniesKresna/gobridge/serror"

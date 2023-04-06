@@ -1,8 +1,8 @@
 package config
 
 import (
-	"github.com/DeniesKresna/danatest/models"
 	"github.com/DeniesKresna/gohelper/utstring"
+	"github.com/DeniesKresna/smartm2m/models"
 )
 
 func New() *Config {
